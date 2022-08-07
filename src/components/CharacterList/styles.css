@@ -1,17 +1,29 @@
-.list {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 16px;
+.container {
     margin: 0 auto;
 }
 
-.list img {
+.list-favourites {
+    max-width: 300px;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    text-align: left;
+}
+
+.list-characters {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 16px;
+
+}
+
+.list-characters img {
     max-width: 100%;
     max-height: 100%;
     border-radius: 50%;
 }
 
-.list figure {
+.list-characters figure {
     width: 250px;
     margin: 16px auto;
 }
