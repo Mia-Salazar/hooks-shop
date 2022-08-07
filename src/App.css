@@ -3,3 +3,13 @@
   margin: 0 auto;
   padding: 0 24px;
 }
+
+.light {
+  background-color: white;
+  color: black;
+}
+
+.dark {
+  background-color: black;
+  color: white;
+}
