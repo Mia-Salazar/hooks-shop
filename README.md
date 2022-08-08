@@ -1,6 +1,6 @@
-# Shop made with React
+# Rick and Morty Project made with React
 
-A project made with React to practice hooks
+A Rick and Morty project made with React to practice hooks
 
 ## Available Scripts
 
