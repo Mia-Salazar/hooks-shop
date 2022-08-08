@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useReducer, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useReducer, useMemo, useRef, useCallback } from 'react';
+import Search from '../Search/Search';
 
 import "./styles.css";
 
@@ -34,10 +35,11 @@ const CharacterList = () => {
         dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite })
     }
 
-        // const filteredUsers = characters.filter((user) => {
-        //   return user.name.toLowerCase().includes(search.toLowerCase());
-        // })
-
+    // Without useMemo is not as efficient
+    // const filteredUsers = characters.filter((user) => {
+    //   return user.name.toLowerCase().includes(search.toLowerCase());
+    // })
+    // With useMemo
     const filteredUsers = useMemo(() =>
         list.filter((user) => {
           return user.name.toLowerCase().includes(search.toLowerCase());
@@ -45,13 +47,18 @@ const CharacterList = () => {
         [list, search]
     )
 
+    //Without useRef
     // const searchSomething = (event) => {
     //     setSearch(event.target.value)
     // }
-
-    const searchSomething = (event) => {
-        setSearch(searchInput.current.value)
-    }
+    //With useRef
+    //const searchSomething = (event) => {
+    //    setSearch(searchInput.current.value)
+    //}
+    //With useCallback
+    const searchSomething = useCallback(() => {
+        setSearch(searchInput.current.value);
+    }, [])
 
     return (
         <section class="container">
@@ -64,9 +71,7 @@ const CharacterList = () => {
                 ))}
             </ul>
             {favorites.favorites.length === 0 &&  <h4>No hay favoritos</h4>}
-            <h2>Buscar personajes</h2>
-            <label for="search">Nombre personaje</label>
-            <input type="text" value={search} id="search" ref={searchInput} name="search" onChange={searchSomething}/>
+            <Search search={search} searchInput={searchInput}  handleSearch={searchSomething}/>
             
             <h2>Personajes de la serie</h2>
             <div className="list-characters">
