@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useMemo } from 'react';
 
 import "./styles.css";
 
@@ -20,6 +20,7 @@ const favoriteReducer = (state, action) => {
 
 const CharacterList = () => {
     const [list, setList] = useState([]);
+    const [search, setSearch] = useState("");
     const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
 
 
@@ -33,6 +34,21 @@ const CharacterList = () => {
         dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite })
     }
 
+        // const filteredUsers = characters.filter((user) => {
+        //   return user.name.toLowerCase().includes(search.toLowerCase());
+        // })
+
+    const filteredUsers = useMemo(() =>
+        list.filter((user) => {
+          return user.name.toLowerCase().includes(search.toLowerCase());
+        }),
+        [list, search]
+    )
+
+    const searchSomething = (event) => {
+        setSearch(event.target.value)
+    }
+
     return (
         <section class="container">
             <h2>Personajes favoritos</h2>
@@ -44,10 +60,13 @@ const CharacterList = () => {
                 ))}
             </ul>
             {favorites.favorites.length === 0 &&  <h4>No hay favoritos</h4>}
-
+            <h2>Buscar personajes</h2>
+            <label for="search">Nombre personaje</label>
+            <input type="text" value={search} id="search" name="search" onChange={searchSomething}/>
+            
             <h2>Personajes de la serie</h2>
             <div className="list-characters">
-                {list.map(character => (
+                {filteredUsers.map(character => (
                     <article class="list-element" key={character.id}>
                         <figure>
                             <img src={character.image} alt=""/>
