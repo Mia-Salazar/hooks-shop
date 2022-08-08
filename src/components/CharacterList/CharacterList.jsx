@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useMemo } from 'react';
+import React, { useState, useEffect, useReducer, useMemo, useRef } from 'react';
 
 import "./styles.css";
 
@@ -22,7 +22,7 @@ const CharacterList = () => {
     const [list, setList] = useState([]);
     const [search, setSearch] = useState("");
     const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
-
+    const searchInput = useRef(null);
 
     useEffect(() => {
         fetch('https://rickandmortyapi.com/api/character')
@@ -45,8 +45,12 @@ const CharacterList = () => {
         [list, search]
     )
 
+    // const searchSomething = (event) => {
+    //     setSearch(event.target.value)
+    // }
+
     const searchSomething = (event) => {
-        setSearch(event.target.value)
+        setSearch(searchInput.current.value)
     }
 
     return (
@@ -62,7 +66,7 @@ const CharacterList = () => {
             {favorites.favorites.length === 0 &&  <h4>No hay favoritos</h4>}
             <h2>Buscar personajes</h2>
             <label for="search">Nombre personaje</label>
-            <input type="text" value={search} id="search" name="search" onChange={searchSomething}/>
+            <input type="text" value={search} id="search" ref={searchInput} name="search" onChange={searchSomething}/>
             
             <h2>Personajes de la serie</h2>
             <div className="list-characters">
